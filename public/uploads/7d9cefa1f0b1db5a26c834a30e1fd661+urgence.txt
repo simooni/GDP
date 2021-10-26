@@ -1,0 +1,15 @@
+<?php 
+
+
+    require("../../connection.php");
+    
+
+    $x1 = $_GET['x1'];
+    $x2 = $_GET['x2'];
+    $x3 = $_GET['x3'];
+    $x4 = $_GET['x4'];
+    $x5 = $_GET['x5'];
+ 
+
+
+?>

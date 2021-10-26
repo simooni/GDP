@@ -1,0 +1,222 @@
+ 
+
+<div class="flex-container">
+    <div id="back-sidebar">
+    <input type="text" class="code-nv" value="{{code_niveau}}"  id="id-nv"> 
+    <input type="text" class="order_th" id='order_th' value="desc" hidden>
+    </div>
+    {# ----- Content ------ #}
+    
+
+    <div class="content m-4 ml-3 mt-5 contenu-index" id="tttest" > 
+        <div class="Breadcrumb row   p-1 ">
+              <div class="col-6 user">
+                    Bienvenue {{ app.user.username }} !
+              </div>
+              <div class="col-6 chemin text-right lien-active">
+                   <span class="home">Home</span>
+                   <i class="fas fa-angle-right p-1"></i>
+                   <span>INSTANCES</span>
+
+              </div>
+        </div>
+
+        <div class="card text-center shadow active" id="tableau">
+            <div class="card-header">
+                <ul class="nav nav-tabs card-header-tabs" id="myTab" role="tablist">
+                    <li class="nav-item">
+                        <a class="nav-link active active-color" id="home-tab" data-toggle="tab" href="#document" 
+                            role="tab" aria-controls="home" aria-selected="true">Documents</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active-color" id="profile-tab" data-toggle="tab" href="#action" 
+                            role="tab" aria-controls="profile" aria-selected="false">Actions</a>
+                    </li>
+                </ul>
+            </div>
+            <div class="card-body">
+
+                <div class="tab-content" id="myTabContent">
+                    
+                    {# ---- documents ---- #}
+
+                    <div class="tab-pane fade show active" id="document" role="tabpanel" aria-labelledby="home-tab">
+                       
+                        <div class="button-documents text-right mt-1 ">
+
+                            <div class="btn-group">
+                                <button type="button" class="btn btn-outline-info btn-sm  button-size  dropdown-toggle"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    Ajouter
+                                </button>
+                                <div class="dropdown-menu dropdown-menu-right">
+                                    {# <button class="dropdown-item" type="button">Modifier</button> #}
+                                    <button type="button " class="dropdown-item modifier-tdocument" id="_ajouter_d"
+                                            data-toggle="modal" data-target="#exampleModal">Document</button>
+
+                                    <button type="button " class="dropdown-item modifier-tdocument" id="_ajouter_d"
+                                            data-toggle="modal" data-target="#exampleModalFolder">Dossier</button>
+                                    
+                                </div>
+                            </div>
+                            {# <button type="button" class="btn btn-outline-info btn-sm  button-size">Télécharger</button> #}
+                            <button type="button" class="btn btn-outline-info btn-sm  button-size filter-button-tdocument">Rechercher</button>
+                        </div>
+
+                        {# --------- filter ------------ #}
+
+                        <div class="filter-div filter-tdocument border border-info rounded shadow mt-2 " >
+                            <div class="pl-2 pr-2">  
+                                <div class="row">
+                                    <div class="form-group  mt-2 col-sm-6 ">
+                                        <input type="text" name="" class="form-control border-info  form-control-sm intituleDocument" id="intitule" placeholder="Rechercher par Intitulé ">
+                                    </div>
+                                    <div class="form-group  mt-2 col-sm-6 ">
+                                        <input type="text" name="" class="form-control border-info  form-control-sm typeDocument" id="type" placeholder="Rechercher par Type ">
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        {# --------- filter ------------ #}
+
+
+                        <div class="alert alert-success docoments-success mb-2 mt-2" role="alert">
+                            <i class="fas fa-check"></i> Le document a été suspendu avec succès
+                        </div>
+                        <div class="alert alert-danger docoments-errors  mb-2 mt-2" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i> Oops, erreur!
+                        </div>
+
+                        <div class="content-table">
+
+                            <table id="table-data"  class="table table-bordered mt-2 Tdocument-table table_home prog"  style="width:100%"> {# table-striped #}
+
+                                <thead class="bg-light" >
+                                    <tr>
+                                        <th class="width_plus"><i class="fas fa-link"></i></th>
+                                        <th class="Tdocument-th colu"> <input type="text" class="th_column" value="id" hidden> ID <i class=" i_th"></i></th>
+                                        <th class="Tdocument-th colu"> <input type="text" class="th_column" value="intitule" hidden> Intitule <i class=" i_th"></i></th>
+                                        <th class="">Type</th>
+                                        <th class="">Taille</th>
+                                        <th class=" ">User create</th>
+                                        <th class="Tdocument-th colu"> <input type="text" class="th_column" value="dateCreation" hidden> Date Create <i class=" i_th"></i></th>
+                                        <th class="">Nb version</th>
+                                        <th class="">User D.MSJ</th>
+                                        <th class="">Avancement</th>
+                                        <th class="">Statut</th>
+                                        <th class="">Actions</th>
+                                    </tr>
+
+                                </thead>
+                                <tbody class="TbodyDocument">
+                                       {{ include ('tableBody/tdocument.html.twig') }} 
+                                </tbody>
+ 
+                            </table>
+                            {{ include ('pagination/document.html.twig') }} 
+                        </div>
+
+                         {# <button type="button" class="btn btn-sm  button-size voir-plus">Voir plus</button> #}
+
+                        {# ---- table ---- #}
+
+                    </div>
+                     {# ---- Documents ----- #}
+
+                    {# ----- actions ---- #}
+
+                    <div class="tab-pane fade" id="action" role="tabpanel" aria-labelledby="profile-tab">
+
+                        <div class="button-actions text-right mt-1 ">
+                            {# <button type="button" class="btn btn-outline-info btn-sm  button-size">Rapport</button> #}
+                            {# <button type="button" class="btn btn-outline-info btn-sm  button-size">Créer</button> #}
+                             <button type="button" class="btn btn-outline-info btn-sm  button-size" id="_ajouter_d"
+                                     data-toggle="modal" data-target="#taction">Créer</button>
+                            <button type="button" class="btn btn-outline-info btn-sm  button-size filter-button-action">Rechercher</button>
+                        </div>
+                        {# --- buttons ----- #}
+
+                         {# --------- filter ------------ #}
+
+                        <div class="filter-div filter-taction border border-info rounded shadow mt-2" >
+                            <div class="pl-2 pr-2">  
+                                <div class="row">
+                                    <div class="form-group  mt-2 col-sm-6 ">
+                                        <input type="text" name="" class="form-control border-info  form-control-sm intituleAction" id="intitule" placeholder="Rechercher par Intitulé ">
+                                    </div>
+                                    <div class="form-group  mt-2 col-sm-6 ">
+                                        <input type="text" name="" class="form-control border-info  form-control-sm typeAction" id="type" placeholder="Rechercher par Type Action ">
+                                    </div>
+                                </div>
+                                
+                            </div>
+                        </div>
+                        {# --------- filter ------------ #}
+                        <div class="alert alert-success actions-success mb-2 mt-2" role="alert">
+                            <i class="fas fa-check"></i> L'action a été suspendu avec succès
+                        </div>
+                        <div class="alert alert-danger actions-errors  mb-2 mt-2" role="alert">
+                            <i class="fas fa-exclamation-triangle"></i> Oops, erreur!
+                        </div>
+                        <div class="content-table">
+
+                            <table id="table-data" class="table table-bordered mt-2 Action-table table_home sortable" style="width:100%" > {# table-striped #}
+
+                                <thead class="bg-light" >
+                                    <tr>
+                                        <th class=" "><i class="fas fa-link"></i></th>
+                                        <th class="Taction-th colu"> <input type="text" class="th_column" value="id" hidden>ID <i class=" i_th"></i></th>
+                                        <th class="Taction-th colu"><input type="text" class="th_column" value="intitule" hidden>Intitule <i class=" i_th"></i></th>
+                                        <th class=" ">Type Action</th>
+                                        <th class="Taction-th colu"><input type="text" class="th_column" value="dateCreation" hidden>date creation <i class=" i_th"></i></th>
+                                        <th class=" ">User creation</i></th>
+                                        <th class=" ">Nbr debats</th>
+                                        <th class=" ">Date D.V</th>
+                                        <th class=" ">User D.v</th>
+                                        <th class=" ">Urgence</th>
+                                        <th class=" ">Statut</th>
+                                         <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody  class="TbodyAction">
+                                    {{ include ('tableBody/taction.html.twig') }} 
+                                
+                                </tbody>
+
+                            </table>
+                            {{ include ('pagination/action.html.twig') }}
+                            
+                            
+                            {# ---- table ---- #}
+
+
+                         </div>
+
+                        {# ---- actions  ---- #}
+
+                    </div>
+                </div>
+            </div>
+        </div>     
+        {# ----- Content ------ #}
+    </div>  
+</div>
+<div class="modal-backdrop fade show" id="show_loader" hidden> <div class="loader1"></div> </div>
+{# -------------------  Tdocument --------------- #}
+{{ include ('modal/Tdocument/add/modalTdocument.html.twig') }}
+{{ include ('modal/Tdocument/add/modalFolder.html.twig') }}  
+{{ include ('modal/Tdocument/add/ModalMultipleFolder.html.twig') }}  
+{{ include ('modal/Tdocument/add/ModalMultipleDocument.html.twig') }}
+{{ include ('modal/Tdocument/add/modalVdocument.html.twig') }}   
+{{ include ('modal/Tdocument/edit/modalTdocumentEdit.html.twig') }}    
+{{ include ('modal/Tdocument/edit/modalFolderEdit.html.twig') }}    
+{{ include ('modal/Tdocument/edit/modalVdocumentEdit.html.twig') }}  
+{# ------------------- end Tdocument --------------- #}
+
+{# -------------------  Taction --------------- #}
+{{ include ('modal/Taction/add/modalTaction.html.twig') }}    
+{{ include ('modal/Taction/edit/modalTactionEdit.html.twig') }}  
+{{ include ('modal/Taction/add/modalActionReponse.html.twig') }}    
+{# ------------------- end Taction --------------- #}
+
+{# <script src="{{ asset('js/bootstrap/menu.js') }}" ></script> #}

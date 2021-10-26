@@ -1,0 +1,50 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tdocument{% endblock %}
+
+{% block body %}
+    <h1>Tdocument</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ tdocument.id }}</td>
+            </tr>
+            <tr>
+                <th>Intitule</th>
+                <td>{{ tdocument.intitule }}</td>
+            </tr>
+            <tr>
+                <th>TypeDocument</th>
+                <td>{{ tdocument.typeDocument }}</td>
+            </tr>
+            <tr>
+                <th>Taille</th>
+                <td>{{ tdocument.taille }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ tdocument.dateCreation ? tdocument.dateCreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>userCreate</th>
+                <td>{{ tdocument.userCreate }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ tdocument.active }}</td>
+            </tr>
+            <tr>
+                <th>Cloturer</th>
+                <td>{{ tdocument.cloturer }}</td>
+            </tr>
+        </tbody>
+    </table>
+ 
+    <a href="{{ path('tdocument_index') }}">back to list</a>
+
+    <a href="{{ path('tdocument_edit', {'id': tdocument.id}) }}">edit</a>
+
+    {{ include('tdocument/_delete_form.html.twig') }}
+{% endblock %}

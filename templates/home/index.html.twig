@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block stylesheets %}
+   {{parent()}}
+    <link rel="stylesheet" href="{{  asset('css/home.css') }}" rel="stylesheet">
+    <link rel="stylesheet" href="{{  asset('css/pagination.css') }}" rel="stylesheet">
+        
+    
+{% endblock %}
+
+{% block body %}
+
+    {{ include ('inc/navbar.html.twig') }}     
+    {{ include ('inc/sidebar.html.twig') }}   
+    
+    <div class="contenu-index" >
+        {{ include ('home/contenu_index.html.twig') }}
+
+    </div>  
+
+
+{% endblock %}
+{% block javascripts %}
+ 
+  
+{{parent()}}
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js" integrity="sha512-bZS47S7sPOxkjU/4Bt0zrhEtWx0y0CRkhEp8IckzK+ltifIIE9EMIMTuT/mEzoIMewUINruDBIR/jJnbguonqQ==" crossorigin="anonymous"></script>
+<script src="{{ asset('js/bootstrap/document.js') }}" ></script>
+<script src="{{ asset('js/bootstrap/versionDocument.js') }}" ></script>
+<script src="{{ asset('js/bootstrap/action.js') }}" ></script>
+<script src="{{ asset('js/bootstrap/pagination.js') }}" ></script>
+<script src="{{ asset('js/bootstrap/filtration.js') }}"></script>
+<script src="{{ asset('js/bootstrap/menu.js') }}" ></script>
+
+
+
+
+{# <script src="{{ asset('js/bootstrap/filterorder.js') }}" ></script> #}
+ 
+   
+
+{% endblock %}

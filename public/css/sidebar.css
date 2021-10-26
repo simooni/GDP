@@ -1,0 +1,134 @@
+
+#back-sidebar{
+    
+    width: 0%; 
+    
+    /* background-color: red; */
+}
+
+
+.flex-container {
+    display: flex;
+}
+ul{
+    transition:.2s;
+    
+}
+.pd-l{
+  padding-left: 35px !important;
+}
+
+.gris{
+ background-color: #EEEEEE;
+ color: #348cd4;
+}
+.link-r{
+  text-decoration : none;
+  font-size: 12px;
+}
+.fa-circle{
+    font-size: 10px;
+}
+.items{
+  display:none;
+  padding: 0px;
+}
+.open{
+ display:block;
+}
+.navigation{
+    width: 20.5%; 
+   
+    background-color: white;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index:2;
+    overflow-y: auto;
+}
+.navigation::-webkit-scrollbar {
+  width: 12px;
+}
+
+/* Track */
+.navigation::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3); 
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+/* Handle */
+.navigation::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgba(206, 206, 206, 0.8);
+  -webkit-box-shadow: inset 6px 0 6px rgba(106, 106, 106, 0.5);
+  -moz-border-radius: 10px;
+  -ms-border-radius: 10px;
+  -o-border-radius: 10px;
+}
+
+
+/* ------------- top bar ------------------ */
+.top-bar{
+   position: relative;
+}
+.top-bar i{
+    font-size: 18px;
+}
+.top-bar .brand span{
+    font-weight: bold;
+    font-size: 14px;
+}
+
+#main {
+    position: fixed;
+    background-color: #348CD4;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    z-index:3;
+    /* padding:12.5px; */
+}
+
+#navigation {
+   
+   
+    left:-500px;
+    width:410px;
+    height:100%;
+   
+    transition:all 300ms linear;
+  }
+#navigation.active {
+    left:0px;
+  }
+.row-navigation{
+  display: flex;
+  align-items: baseline;
+}
+.nvc{
+ font-size: 11px;
+}
+.nnv3{
+  font-size: 7px;
+}
+
+.Limit_text{
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: 500px;
+}
+.navigation-icon + .link-niveau {
+  margin-left: .1%;
+  width: 80%;
+  display: inline-flex; 
+  white-space: nowrap;
+}
+
+.Limit_text:hover{
+  overflow: visible;
+  max-width: 1000px;
+}
+

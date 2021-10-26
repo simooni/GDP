@@ -1,0 +1,103 @@
+
+ <ul class="navigation list-unstyled shadow active" id="navigation">
+ 
+    <div class="mt-5">
+    </div>
+    <div class="text-secondary p-2" style="font-size:12px;">
+        Navigation
+    </div>
+
+    {# ------- li navigation item ------ #}
+
+    {% for n1 in Nv1 %}
+        <li class="navigation-item nv mt-1 " >
+
+            <div class="item p-1  active-bg"  >
+                <i class="fa fa-plus  navigation-icon mr-2 ml-2  active-color nvc" id="{{n1.code}}" ></i>
+                <a  class="link-r active-color link-niveau" href="#"  data-toggle="modal" >
+                    <input type="text" class="code-link" value="{{n1.code}}" hidden id="id-link"><div class="Limit_text" data-toggle="tooltip" data-placement="bottom" title="{{n1.designation}}">{{n1.designation}}  </div>
+                </a>
+                {# {{ path('Niveau',{'code':n1.code}) }} #}
+            </div>
+
+            <div class="items " id="id_navigation_item"> {# open #}
+                <ul class="sous-menu list-unstyled">
+                    
+                    {% for n2 in n1.nv2 %}
+                    {# ------------ li sous menu ---------- #}
+                    <li class="">
+
+                        <div class="item p-1 rounded ml-4">
+                            <i class="fa fa-plus navigation-icon mr-2   text-info nvc" id="{{n1.code}}"></i>
+                            <a class="link-r  text-muted  link-niveau" href="#" data-toggle="modal"/> 
+                        <input type="text" class="code-link" value="{{n2.code}}" hidden id="id-link"> <div class="Limit_text"data-toggle="tooltip" data-placement="bottom" title="{{n2.designation}}" >{{n2.designation}} </div>
+                            </a>
+                            {# {{ path('Niveau',{'code':n2.code}) }} #}
+                        </div>
+                        {# ---------   list Nv3  ------- #}
+                        <div class="items"> 
+                            <ul class="sous-menu  list-unstyled">
+                                {% for n3 in n2.nv3 %}
+                                    <li class="">
+                                        <div class="item pd-l p-1 rounded ml-2">
+                                            <i class="fa fa-plus navigation-icon text-muted mr-2   text-info nvc" id="{{n1.code}}" ></i>
+                                            <a  class="link-r text-muted link-niveau " href="#" data-toggle="modal"/>
+                                        <input type="text" class="code-link" value="{{n3.code}}" hidden id="id-link"> <div class="Limit_text"data-toggle="tooltip" data-placement="bottom" title="{{n3.designation}}">{{n3.designation}} </div>
+                                            </a>
+                                            {# {{ path('Niveau',{'code':n3.code})}} #}
+                                        </div>
+                                        {# ---------   list Nv4  ------- #}
+                                        <div class="items"> 
+                                            <ul class="sous-menu  list-unstyled">
+                                                {% for n4 in n3.nv4s %}
+                                                    <li class="">
+                                                        <div class="item pd-l p-1 rounded ml-4 ">
+                                                            <i class="fa fa-plus navigation-icon mr-2   text-info nvc" id="{{n1.code}}" ></i>
+                                                            <a  class="link-r text-muted link-niveau" href="#" data-toggle="modal"/>
+                                                        <input type="text" class="code-link" value="{{n4.code}}" hidden id="id-link"> <div class="Limit_text" data-toggle="tooltip" data-placement="bottom" title="{{n4.designation}}"> {{n4.designation}} </div>
+                                                            </a>
+                                                          {# {{ path('Niveau',{'code':n4.code})}} #}
+                                                        </div>
+                                                        {# ---------   list Nv4  ------- #}
+                                                        <div class="items"> 
+                                                            <ul class="sous-menu  list-unstyled">
+                                                                {% for n5 in n4.nv5s %}
+                                                                    <li class="">
+                                                                        <div class="item pd-l p-1 rounded ml-4 ">
+                                                                            <i class="fa fa-minus  navigation-icon text-muted ml-3   text-info  nnv3" id="{{n1.code}}" ></i>
+                                                                            <a  class="link-r text-muted link-niveau" href="#" data-toggle="modal"/>
+                                                                        <input type="text" class="code-link" value="{{n5.code}}" hidden id="id-link"> <div class="Limit_text"data-toggle="tooltip" data-placement="bottom" title="{{n5.designation}}">{{n5.designation}} </div>
+                                                                            </a>
+                                                                            {# {{ path('Niveau',{'code':n5.code}) }} #}
+                                                                        </div>
+                                                                    </li>
+                                                                {% endfor %}
+                                                            </ul>
+                                                        </div>
+                                                    </li>
+                                                {% endfor %}
+                                            </ul>
+                                        </div>
+                                    </li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        {# -------------------- #}
+                    </li>
+                    {# ------------ li sous menu ---------- #}
+                    {% endfor %}
+
+                </ul>
+            </div>
+
+        </li>
+    {% endfor %}
+    
+    {# ------- li navigation item ------ #}
+    
+    {# <p> ------- autre navigation ----------  </p> #}
+
+</ul>
+
+
+ 

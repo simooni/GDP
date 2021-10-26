@@ -1,0 +1,58 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taction{% endblock %}
+
+{% block body %}
+    <h1>Taction</h1>
+ 
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ taction.id }}</td>
+            </tr>
+            <tr>
+                <th>RefAction</th>
+                <td>{{ taction.RefAction }}</td>
+            </tr>
+            <tr>
+                <th>Intitule</th>
+                <td>{{ taction.intitule }}</td>
+            </tr>
+            <tr>
+                <th>TypeAction</th>
+                <td>{{ taction.typeAction }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ taction.dateCreation ? taction.dateCreation|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>userCreate</th>
+                <td>{{ taction.userCreate }}</td>
+            </tr>
+            <tr>
+                <th>EtatUrg</th>
+                <td>{{ taction.etatUrg }}</td>
+            </tr>
+            <tr>
+                <th>Active</th>
+                <td>{{ taction.active }}</td>
+            </tr>
+            <tr>
+                <th>Cloturer</th>
+                <td>{{ taction.cloturer }}</td>
+            </tr>
+            <tr>
+                <th>Urgence</th>
+                <td>{{ taction.urgence }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('taction_index') }}">back to list</a>
+
+    <a href="{{ path('taction_edit', {'id': taction.id}) }}">edit</a>
+
+    {{ include('taction/_delete_form.html.twig') }}
+{% endblock %}

@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Tdocument index{% endblock %}
+
+{% block body %}
+    <h1>Tdocument index</h1>
+ 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Intitule</th>
+                <th>TypeDocument</th>
+                <th>Taille</th>
+                <th>DateCreation</th>
+                <th>userCreate</th>
+                <th>Active</th>
+                <th>Cloturer</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for tdocument in tdocuments %}
+            <tr>
+                <td>{{ tdocument.id }}</td>
+                <td>{{ tdocument.intitule }}</td>
+                <td>{{ tdocument.typeDocument }}</td>
+                <td>{{ tdocument.taille }}</td>
+                <td>{{ tdocument.dateCreation ? tdocument.dateCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ tdocument.userCreate }}</td>
+                <td>{{ tdocument.active }}</td>
+                <td>{{ tdocument.cloturer }}</td>
+                <td>
+                    <a href="{{ path('tdocument_show', {'id': tdocument.id}) }}">show</a>
+                    <a href="{{ path('tdocument_edit', {'id': tdocument.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="9">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('tdocument_new') }}">Create new</a>
+{% endblock %}

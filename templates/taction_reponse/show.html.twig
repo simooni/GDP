@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TactionReponse{% endblock %}
+
+{% block body %}
+    <h1>TactionReponse</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ taction_reponse.id }}</td>
+            </tr>
+            <tr>
+                <th>RefReponse</th>
+                <td>{{ taction_reponse.refReponse }}</td>
+            </tr>
+            <tr>
+                <th>Intitule</th>
+                <td>{{ taction_reponse.intitule }}</td>
+            </tr>
+            <tr>
+                <th>TypeReponse</th>
+                <td>{{ taction_reponse.typeReponse }}</td>
+            </tr>
+            <tr>
+                <th>DateCreation</th>
+                <td>{{ taction_reponse.dateCreation }}</td>
+            </tr>
+            <tr>
+                <th>DateCreationn</th>
+                <td>{{ taction_reponse.dateCreationn ? taction_reponse.dateCreationn|date('Y-m-d') : '' }}</td>
+            </tr>
+            <tr>
+                <th>userCreate</th>
+                <td>{{ taction_reponse.userCreate }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('taction_reponse_index') }}">back to list</a>
+
+    <a href="{{ path('taction_reponse_edit', {'id': taction_reponse.id}) }}">edit</a>
+
+    {{ include('taction_reponse/_delete_form.html.twig') }}
+{% endblock %}
+ 

@@ -1,0 +1,33 @@
+<div class="container__pagination mt-2" id="container__paginationAction">
+    <div class="loader paginationLoader"></div>
+    {% set lastPage = arrayOfpageAction|last %}
+    {% set firstPage = arrayOfpageAction|first %}
+    {% if arrayOfpageAction|length > 10 %}
+        <div class="buttonDebut pagination_action" id="buttonDebutAction">
+            <button class="button__pagination button__initial" id="fisrt__page" onClick="getAction(0, 1)"><input type="text" class="num-page-Action" value="0" hidden>1</button>
+        </div>
+        <i class="fas fa-chevron-left" id="fa-chevron-leftAction"></i>
+    {% endif %}
+    <div class="pagination pagination_action" >
+        <div id="paginationAction">
+            {% for page in arrayOfpageAction %}
+                {% if loop.index == 1 %}
+                    <button class="button__pagination button__pagination__active" onClick="getAction({{page}}, {{loop.index}})"><input type="text" class="num-page-Action" value="{{page}}" hidden>{{loop.index}}</button>
+                {% else %}
+                    <button class="button__pagination " onClick="getAction({{page}}, {{loop.index}})"><input type="text" class="num-page-Action" value="{{page}}" hidden>{{loop.index}}</button>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+    {% if arrayOfpageAction|length > 10 %}
+        {% for page in arrayOfpageAction %}
+            {% if page == lastPage %}
+                <i class="fas fa-chevron-right" id="fa-chevron-rightAction"></i>
+                <div class="buttonFinal pagination_action" id="buttonFinalAction">
+                    <button class="button__pagination button__initial" id="last__page" onClick="getAction({{page}}, {{loop.index}})"><input type="text" class="num-page-Action" value="{{page}}" hidden>{{loop.index}}</button>
+                </div>
+                {% endif %}
+        {% endfor %}
+    {% endif %}
+</div>
+

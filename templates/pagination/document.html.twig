@@ -1,0 +1,37 @@
+<div class="container__pagination mt-2" id="container__pagination">
+    <div class="loader paginationLoader"></div>
+    {% set lastPage = arrayOfpageDocument|last %}
+    {% set firstPage = arrayOfpageDocument|first %}
+    {% if arrayOfpageDocument|length > 10 %}
+        <div class="buttonDebut pagination_document" id="buttonDebut">
+            <button class="button__pagination button__initial" id="fisrt__page" onClick="getDocument(0, 1)"><input type="text" class="num-page-Document" value="0" hidden>1</button>
+        </div>
+        <i class="fas fa-chevron-left" id="fa-chevron-left"></i>
+    {% endif %}
+    <div class="pagination pagination_document " >
+        <div id="pagination">
+        {% for page in arrayOfpageDocument %}
+            {% if loop.index == 1 %}
+                <button class="button__pagination button__pagination__active" onClick="getDocument({{page}}, {{loop.index}})"> <input type="text" class="num-page-Document" value="{{page}}" hidden>{{loop.index}} </button>
+            {% else %}
+                <button class="button__pagination " onClick="getDocument({{page}}, {{loop.index}})"><input type="text" class="num-page-Document" value="{{page}}" hidden> {{loop.index}} </button>
+            {% endif %}
+        {% endfor %}
+        </div>
+    </div>
+    {% if arrayOfpageDocument|length > 10 %}
+        {% for page in arrayOfpageDocument %} 
+            {% if page == lastPage %}
+                <i class="fas fa-chevron-right" id="fa-chevron-right"></i>
+                <div class="buttonFinal pagination_document" id="buttonFinal">
+                    <button class="button__pagination button__initial" id="last__page" onClick="getDocument({{page}}, {{loop.index}})"><input type="text" class="num-page-Document" value="{{page}}" hidden>{{loop.index}}</button>
+                </div>
+            {% endif %}
+        {% endfor %}
+    {% endif %}
+    <div class="" id="container__pagination" >
+        <button class="button__pagination button__initial retour_document" onClick="getDocument(0, 1)" id="container__pagination">
+        <i class="fa fa-arrow-circle-left"></i> Retour 
+        </button>
+    </div> 
+</div>

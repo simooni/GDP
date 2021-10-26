@@ -1,0 +1,13 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Edit TactionReponse{% endblock %}
+
+{% block body %}
+    <h1>Edit TactionReponse</h1>
+
+    {{ include('taction_reponse/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('taction_reponse_index') }}">back to list</a>
+
+    {{ include('taction_reponse/_delete_form.html.twig') }}
+{% endblock %}

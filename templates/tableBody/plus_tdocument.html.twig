@@ -1,0 +1,315 @@
+{%set d = 1 %}
+{%set url = 'http://127.0.0.1:8000/uploads/'%}
+{#-------------------------------------------------------------------------------------------------------  #}
+
+            <td  colspan="12">
+                <div> 
+                    <table class="table table-bordered bg-light ">
+                        <thead class="bg-light" >
+                        </thead>
+                        <tbody>
+
+                            {% for Tdd  in Tdocument %}
+                               {% if d > 2 %}
+                                    {%set d = 1 %}
+                                {% endif %}
+                                    
+                                    {# Pour vérifier que le document a été supprimée ou non #}
+                                    {% set dc = 0 %} 
+                                    {% if Tdd.tdocuments |length > 0 %}
+                                        {% for tdds  in Tdd.tdocuments %}
+                                                {% if tdds.suspondu != 1 %}
+                                                    {% set dc = 1 %}
+                                                {% endif %}
+                                        {% endfor %}
+                                    {% endif %}    
+                                    {# ---------------------------------------------------------------- #}
+
+                                    {# Pour vérifier que la version du document a été supprimée ou non #}
+                                    {% set vr = 0 %}  
+                                    {% if Tdd.TdocumentVersions |length > 0 %}
+                                        {% for tvr  in Tdd.TdocumentVersions %}
+                                                {% if tvr.suspondu != 1 %}
+                                                    {% set vr = vr + 1 %}
+                                                {% endif %}
+                                        {% endfor %}
+                                    {% endif %}    
+                                    {# ---------------------------------------------------------------- #}
+                                
+
+                                    <tr id="{{'td'~ Tdd.id }}" {% if Tdd.typeDocument =='Dossier' %} class="  table-tr{{d}} dossier_color "{% else %} class="  table-tr{{d}} document_color"  {% endif %}>
+                                        
+                                        
+                                        {% if  ( vr > 0) or ( dc > 0) %}
+                                            <td class="plus show_plus width_plus">    
+                                                {% if Tdd.typeDocument =='Dossier' %} 
+                                                    <i class="fas fa fa-folder"></i> 
+                                                {% else %} 
+                                                    <i class="fas fa-file"></i> 
+                                                {% endif %} 
+                                            </td>     
+                                        {% else %}
+                                            <td class="width_plus ">
+                                                {% if Tdd.typeDocument =='Dossier' %} 
+                                                    <i class="fas fa fa-folder-o"></i> 
+                                                {% else %} 
+                                                    <i class="fas fa fa-file-o"></i> 
+                                                {% endif %}     
+                                            </td>
+                                        {% endif %}
+                                        </td>
+                                        <td class="id-tdocument">{{Tdd.id}}</td>
+                                        <td class="intitule-tdocument">{{Tdd.intitule}}</td>
+                                        <td classe="td_width">{{Tdd.typeDocument}}</td>
+                                        <td classe="td_width">{{Tdd.Taille}}</td>
+                                        <td classe="td_width">{{Tdd.userCreate}}</td>
+                                        <td classe="td_width">{% if Tdd.dateCreation is not empty %} {{Tdd.dateCreation | date("d/m/Y")}} {% endif %}</td>
+                                        <td classe="td_width">{{ Tdd.TdocumentVersions |length }}</td>
+                                        <td classe="td_width">{{Tdd.userCreate}}</td>
+                                        <td class="avancement-tdocument td_width">{{Tdd.avancement}}</td>
+                                        <td class="statut-tdocument td_width">
+                                            <div class="btn-group">
+                                                <button type="button" class="btn   btn-sm  dropdown-toggle" id="dropdown_table1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                {% if Tdd.cloturer == 1 %} Clôturé {% elseif Tdd.annuler == 1 %} Annulé {% else %}{{Tdd.statut}}{% endif %}
+                                                </button>
+                                                <div class="dropdown-menu dropdown-menu-right">
+                                                    {% if Tdd.cloturer != 1 and Tdd.annuler != 1 %}    
+                                                        {% if Tdd.statut == 'Créé' %}
+                                                        
+                                                            <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                                                action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'En cours' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">En cours</button>
+                                                            </form>
+                                                            <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                                                action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'En retarde' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">En retarde</button>
+                                                            </form>
+                                                            <form  name="Tdocument-cloturer" class="Tdocument-cloturer" method="post" 
+                                                                action="{{ path('tdocument_cloturer', {'id': Tdd.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ Tdd.id) }}">
+                                                                <button class="dropdown-item" >Clôturer</button>
+                                                            </form>
+                                                            <form  name="Tdocument-annuler" class="Tdocument-annuler" method="post" 
+                                                                action="{{ path('tdocument_annuler', {'id': Tdd.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">Annuler</button>
+                                                            </form>
+                                                        {% elseif Tdd.statut == 'En retarde' %} 
+                                                            <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                                                action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'Créé' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">Créé</button>
+                                                            </form>
+                                                            <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                                                action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'En cours' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">En cours</button>
+                                                            </form>
+                                                            
+                                                            <form  name="Tdocument-cloturer" class="Tdocument-cloturer" method="post" 
+                                                                action="{{ path('tdocument_cloturer', {'id': Tdd.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ Tdd.id) }}">
+                                                                <button class="dropdown-item" >Clôturer</button>
+                                                            </form>
+                                                            <form  name="Tdocument-annuler" class="Tdocument-annuler" method="post" 
+                                                                action="{{ path('tdocument_annuler', {'id': Tdd.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">Annuler</button>
+                                                            </form>
+                                                        {% elseif Tdd.statut == 'En cours' %}
+                                                            <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                                                action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'Créé' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">Créé</button>
+                                                            </form>
+                                                            
+                                                            <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                                                action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'En retarde' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">En retarde</button>
+                                                            </form>
+                                                            <form  name="Tdocument-cloturer" class="Tdocument-cloturer" method="post" 
+                                                                action="{{ path('tdocument_cloturer', {'id': Tdd.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ Tdd.id) }}">
+                                                                <button class="dropdown-item" >Clôturer</button>
+                                                            </form>
+                                                            <form  name="Tdocument-annuler" class="Tdocument-annuler" method="post" 
+                                                                action="{{ path('tdocument_annuler', {'id': Tdd.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">Annuler</button>
+                                                            </form>
+                                                        {% endif %}
+                                                    {% elseif Tdd.cloturer == 1 %}
+                                    
+                                                        <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                                            action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'Créé' } ) }}" >
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                            <button class="dropdown-item">Créé</button>
+                                                        </form>
+                                                        <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                                            action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'En cours' } ) }}" >
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                            <button class="dropdown-item">En cours</button>
+                                                        </form>
+                                                        <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                                            action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'En retarde' } ) }}" >
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                            <button class="dropdown-item">En retarde</button>
+                                                        </form>
+                                                        <form  name="Tdocument-annuler" class="Tdocument-annuler" method="post" 
+                                                            action="{{ path('tdocument_annuler', {'id': Tdd.id }) }}" >
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ Tdd.id) }}">
+                                                            <button class="dropdown-item">Annuler</button>
+                                                        </form>
+                                                    
+                                                    {% elseif Tdd.annuler == 1 %}
+                                    
+                                                        <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                                            action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'Créé' } ) }}" >
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                            <button class="dropdown-item">Créé</button>
+                                                        </form>
+                                                        <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                                            action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'En cours' } ) }}" >
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                            <button class="dropdown-item">En cours</button>
+                                                        </form>
+                                                        <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                                            action="{{ path('tdocument-statuts', {'id': Tdd.id , 'stut': 'En retarde' } ) }}" >
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tdd.id) }}">
+                                                            <button class="dropdown-item">En retarde</button>
+                                                        </form>
+                                                        <form  name="Tdocument-cloturer" class="Tdocument-cloturer" method="post" 
+                                                            action="{{ path('tdocument_cloturer', {'id': Tdd.id }) }}" >
+                                                            <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ Tdd.id) }}">
+                                                            <button class="dropdown-item" >Clôturer</button>
+                                                        </form>
+                                                    
+                                                    {% endif %}
+                                                </div>
+                                            </div>           
+                                        </td>
+                                        <td class="test_td td_width">
+                                            {% if Tdd.cloturer == 0 and Tdd.annuler == 0 %} 
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn btn-outline-info  btn-sm  dropdown-toggle" id="dropdown_table" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 18">
+                                                        <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                                        </svg>
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+
+                                                        {% if Tdd.typeDocument =='Dossier' %}
+
+                                                            <button type="button " class="dropdown-item tdocument-dossier"
+                                                                        data-toggle="modal" data-target="#exampleModalFolder">Ajouter Dossier</button>
+
+                                                            <button type="button " class="dropdown-item tdocument-dossier"
+                                                                        data-toggle="modal" data-target="#exampleModal">Ajouter Document</button>
+
+                                                            <button type="button " class="dropdown-item modifier-tdocument"
+                                                            data-toggle="modal" data-target="#Tdocument-edit">Modifier</button>
+
+                                                            <form  name="Tdocument-suspendre" class="Tdocument-suspendre" method="post" 
+                                                                    action="{{ path('tdocument_suspendre', {'id': Tdd.id }) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('suspendre'~ Tdd.id) }}">
+                                                                    <button class="dropdown-item">Supprimer</button>
+                                                            </form>
+
+                                                        {% else %}
+                                                        
+                                                            <button type="button " class="dropdown-item modifier-tdocument"
+                                                                    data-toggle="modal" data-target="#Tdocument-edit">Modifier</button>
+
+                                                            <form  name="Tdocument-suspendre" class="Tdocument-suspendre" method="post" 
+                                                                action="{{ path('tdocument_suspendre', {'id': Tdd.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('suspendre'~ Tdd.id) }}">
+                                                                <button class="dropdown-item">Supprimer</button>
+                                                            </form>
+
+                                                            <button type="button" class="dropdown-item Vdocument-version"
+                                                                    data-toggle="modal" data-target="#Vdocument-modal">Attacher Version</button>
+                                                            {% if Tdd.slug != null %}
+                                                                <a href={{ url ~ Tdd.slug | url_encode   }} download="{{ Tdd.slug  | split('+', 2)[1] }}"> 
+                                                                    <button type="button" class="dropdown-item Telecharger">
+                                                                        Télecharger
+                                                                    </button>
+                                                                </a>
+                                                            {% endif %} 
+                                                            
+                                                        {% endif %} 
+                                                    </div>
+                                                </div>
+                                            
+                                            {% elseif Tdd.cloturer == 1 %}
+                                                {% if Tdd.slug != null %}
+                                                    <a href={{ url ~ Tdd.slug | url_encode   }} download="{{ Tdd.slug  | split('+', 2)[1] }}">                 
+                                                        <i class="fa fa-download"></i>
+                                                    </a>
+                                                {% else %}  
+                                                    Clôturé 
+                                                {% endif %}  
+                                            {% elseif Tdd.annuler == 1 %}
+                                                {% if Tdd.slug != null %}   
+                                                    <a href={{ url ~ Tdd.slug | url_encode   }} download="{{ Tdd.slug  | split('+', 2)[1] }}">                 
+                                                            <i class="fa fa-download"></i>
+                                                    </a>
+                                                {% else %} 
+                                                    Annulé
+                                                {% endif %}    
+                                            {% endif %}
+                                        </td>
+                                    </tr>
+                                    
+                                    {% if dc > 0 %} 
+                                        <tr  class="version {{Tdd.id}} " id="{{Tdd.id}}">   </tr>
+                                    {% endif %}
+
+
+
+                                {% if Tdd.TdocumentVersions is not empty %}
+                                    <tr  class="version">
+                                        <td  colspan="12">
+                                            <div> 
+                                                <table class="table table-bordered bg-light">
+                                                    <thead>
+                                                        <tr>
+                                                        <th scope="col">Id Version</th>
+                                                        <th scope="col">Intitule</th>
+                                                        <th scope="col">User</th>
+                                                        <th scope="col">Date</th>
+                                                        <th scope="col">Observation</th>
+                                                        <th scope="col">Actions</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        {% for tv  in Tdd.TdocumentVersions %}
+                                                            <tr>
+                                                                <th>{{ tv.id }}</th>
+                                                                <td> {{ tv.intitule }} </td>
+                                                                <td>{{tv.userCreate }}</td>
+                                                                <td>{{tv.dateCreation | date("d/m/Y") }}</td>
+                                                                <td>{{tv.observation}}</td>
+                                                                <td>
+                                                                    <a href={{ url ~ tv.slug | url_encode   }} download="{{ tv.slug  | split('+', 2)[1] }}">                 
+                                                                        <i class="fa fa-download"></i>
+                                                                    </a> 
+                                                                </td>
+                                                            </tr>
+                                                        
+                                                        {% endfor %}
+                                                    </tbody>
+                                                </table>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                {% endif %}
+                                {%set d = d + 1%} 
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </td>
+          

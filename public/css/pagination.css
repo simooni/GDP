@@ -1,0 +1,127 @@
+
+.button__pagination {
+    background-color: transparent;
+    padding: 0rem .5rem;
+    transition: all .2s;
+    border: 1px solid #17a2b8;
+    outline: none !important;
+    /* margin-bottom: .5rem; */
+    margin-right: .2rem;
+    border-radius: 5px;
+    color: #17a2b8;
+    
+}
+.button__pagination:hover {
+    background-color:#17a2b8;
+    color: white;
+    outline: none;
+}
+.button__pagination:active {
+    background-color:#17a2b8;
+    color: white;
+    outline: none;
+    outline: none !important;
+
+}
+.button__pagination__active {
+    background-color:#17a2b8;
+    color: white;
+    outline: none;
+    outline: none !important;
+
+}
+.overlay {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.336);
+    z-index: 15;
+}
+.overlay__container {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+}
+.overlay__container i {
+    font-size: 3.5rem;
+    color: white;
+}
+.active__plus .fa-plus {
+     transform: rotate(45deg);
+
+}
+
+.pagination {
+    width: 25%;
+    overflow-x: scroll;
+    margin: 0 auto;
+}
+.pagination::-webkit-scrollbar {
+    width: 0px;  /* Remove scrollbar space */
+    height: 0px;
+    background: transparent;  /* Optional: just make scrollbar invisible */
+}
+#pagination {
+    display: flex;
+    margin: 0 auto;
+    
+}
+#paginationAction {
+    display: flex;
+    margin: 0 auto;
+}
+.container__pagination {
+    position: relative;
+    /* margin-top: 3rem; */
+}
+.fa-chevron-left, .fa-chevron-right {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #17a2b8;
+    transition: color .5s;
+    /* display: none; */
+    
+}
+.fa-chevron-left:hover, .fa-chevron-right:hover {
+    color: #17344d;
+}
+.fa-chevron-left {
+    left: 35%;
+    /* transform: translateX(-40%); */
+}
+.fa-chevron-right {
+    right: 35%;
+    /* transform: translateX(-60%); */
+}
+.buttonDebut, .buttonFinal  {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    
+}
+.buttonDebut {
+    left: 30%;
+}
+.buttonFinal {
+    right: 30%;
+}
+.button__initial {
+    border-radius: 10px;
+    
+}
+.paginationLoader {
+    margin: 1rem auto;
+    position: absolute;
+    left: 48.5%;
+    transform: translateX(-50%);
+    top: -1rem;
+}
+
+    
+

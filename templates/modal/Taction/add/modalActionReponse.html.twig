@@ -1,0 +1,62 @@
+<!-- Modal -->
+<div class="modal fade" id="taction_reponse" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="action">
+    <form  onsubmit="return false" id="taction_reponse" name="taction_reponse" action="{{ path('taction_reponse_new',{'code':code_niveau}) }}" method="post" enctype="multipart/form-data">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Ajouter Une reponse</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <div class="alert alert-success success-add mb-2" role="alert">
+                    <i class="fas fa-check"></i> L'action a été ajouté avec succès
+                </div>
+
+                <div class="form-group  mt-3">
+                        <input type="text" name="taction_reponse[intitule]" class="form-control border-info" id="intitule" placeholder="Saisir l'intitulé de l'action">
+                </div>
+                <div class="text-danger intitule error-custom mt-2" role="alert">
+                     <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                 <div class="form-group">
+                    <textarea name="taction_reponse[observation]" class="form-control border-info" id="obsevation" rows="3"  placeholder="Saisir votre observation"></textarea>
+                </div>
+
+                 <div class="fileUpload btn-outline-info btn ">
+
+                            <span> <i class="fas fa-upload"></i> </br> Selectionner un document </span>
+                            <input type="file" class="uploadlogo" />
+                            <input type="file" id="files" class="uploadlogo files" name="file">
+                </div>  
+
+                <div class="text-danger fileInput error-custom mt-2" role="alert">
+                     <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                <div class="form-group  mt-3">
+                        <input type="text" name="intitule-document" class="form-control border-info" id="intitule-document" placeholder="Saisir l'intitulé du document">
+                </div>
+                <div class="text-danger intitule-document error-custom mt-2" role="alert">
+                     <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                <input type="hidden" id="taction_reponse__token" name="taction_reponse[_token]" value="{{ csrf_token('taction_reponse') }}">
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="submit" class="btn btn-info btn-sm  button-size televerser">Téléverser</button>
+                <div class="loader"></div>
+
+                <button type="button" class="btn btn-danger  btn-sm  button-size fermer-modal" data-dismiss="modal">Fermer</button>
+
+            </div>
+        </div>
+    </form>
+
+  </div>
+</div>
+<!-- modal -->

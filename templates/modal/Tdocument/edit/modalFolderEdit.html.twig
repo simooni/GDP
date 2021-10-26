@@ -1,0 +1,67 @@
+<!-- Modal --> 
+{# {% set gameTags = gameTags1 %} #}
+
+<div class="modal fade" id="Dossier-edit" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <form  onsubmit="return false" id="dossier-edit" name="tdocument-edit" action="" method="post" enctype="multipart/form-data">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Modifier le dossier </h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body ">
+
+                <div class="alert alert-success success-add mb-2" role="alert">
+                    <i class="fas fa-check"></i> Bien modifié
+                </div>
+
+                 <div class="form-group  mt-3">
+                        <input type="text" name="id" hidden id="id">
+                </div>
+
+                <div class="form-group  mt-3">
+                        <input type="text" name="tdocument[intitule]" class="form-control border-info" id="intitule" placeholder="Saisir l'intitulé du fichier">
+                </div>
+
+                {# <div class="form-group  mt-3" id="statut-document">
+
+                    <select  id="statutDocuments" name="tdocument[statut]" class="form-control border-info" >
+                        <option value="Créé">Créé</option>
+                        <option value="En cours">En cours</option>
+                        <option value="En retarde">En retarde</option>
+                    </select>
+
+                </div> #}
+
+                <div class="form-group  mt-3" id="avancement-document">
+
+                    <select  id="avancementDocuments" name="tdocument[avancement]" class="form-control border-info" >
+                        <option value="0%">0%</option>
+                        <option value="25%">25%</option>
+                        <option value="50%">50%</option>
+                        <option value="100%">100%</option>
+                    </select>
+
+                </div>
+                <div class="text-danger intitule error-custom mt-2" role="alert">
+                     <i class="fas fa-exclamation-triangle"></i>
+                </div>
+
+                <input type="hidden" id="tdocument__token" name="tdocument[_token]" value="{{ csrf_token('tdocument') }}">
+
+            </div>
+            <div class="modal-footer">
+
+                <button type="submit" class="btn btn-info btn-sm  button-size televerser">Modifier</button>
+                <div class="loader"></div>
+                <button type="button" class="btn btn-danger  btn-sm  button-size fermer-modal" data-dismiss="modal">Fermer</button>
+
+            </div>
+        </div>
+    </form>
+
+  </div>
+</div>
+<!-- modal -->

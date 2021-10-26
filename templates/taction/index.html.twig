@@ -1,0 +1,51 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Taction index{% endblock %}
+
+{% block body %}
+    <h1>Taction index</h1>
+ 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>RefAction</th>
+                <th>Intitule</th>
+                <th>TypeAction</th>
+                <th>DateCreation</th>
+                <th>userCreate</th>
+                <th>EtatUrg</th>
+                <th>Active</th>
+                <th>Cloturer</th>
+                <th>Urgence</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for taction in tactions %}
+            <tr>
+                <td>{{ taction.id }}</td>
+                <td>{{ taction.RefAction }}</td>
+                <td>{{ taction.intitule }}</td>
+                <td>{{ taction.typeAction }}</td>
+                <td>{{ taction.dateCreation ? taction.dateCreation|date('Y-m-d') : '' }}</td>
+                <td>{{ taction.userCreate }}</td>
+                <td>{{ taction.etatUrg }}</td>
+                <td>{{ taction.active }}</td>
+                <td>{{ taction.cloturer }}</td>
+                <td>{{ taction.urgence }}</td>
+                <td>
+                    <a href="{{ path('taction_show', {'id': taction.id}) }}">show</a>
+                    <a href="{{ path('taction_edit', {'id': taction.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="11">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('taction_new') }}">Create new</a>
+{% endblock %}

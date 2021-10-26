@@ -1,0 +1,747 @@
+{# variable #}
+{%set c = '1'%}
+
+    {% for Tda in Tdocument_Action %}
+        {# ----- les nombres des actions active ----- #}
+            {%set nbaction = 0 %}
+            {% for TdAction in Tda.tactions %}
+                    {% if TdAction.suspendre == 0  %}
+                        {%set nbaction  = nbaction  + 1 %}
+                    {% endif %} 
+            {% endfor %}
+        {# -------------------------------------------- #}
+
+        {% if nbaction != 0  %}          
+            <tr  id="{{'td'~ Tda.id }}"  {% if Tda.typeDocument =='Dossier' %} class="tr-parent  table-tr{{c}} dossier_color "  {% endif %} >
+                <td  class="plus width_plus">
+                    <i class="fas fa-folder" ></i>   
+                </td>
+                <td class="id-tdocument">{{Tda.id}}</td>
+                <td class="intitule-tdocument">{{Tda.intitule}}</td>
+                <td classe="td_width">{{Tda.typeDocument}}</td>
+                <td classe="td_width">{% if Tda.dateCreation is not empty %} {{Tda.dateCreation | date("d/m/Y")}} {% endif %}</td>
+                <td classe="td_width">{{Tda.userCreate}}</td>
+                <td classe="td_width">--</td>
+                <td classe="td_width">{% if Tda.dateCreation is not empty %} {{Tda.dateCreation | date("d/m/Y")}} {% endif %}</td>
+                <td classe="td_width">{{Tda.userCreate}}</td>
+                <td class="avancement-tdocument td_width">--</td>
+                <td class="statut-tdocument td_width">
+                    <div class="btn-group">
+                        <button type="button" class="btn   btn-sm  dropdown-toggle" id="dropdown_table1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            {% if Tda.cloturer == 1 %} Clôturé {% elseif Tda.annuler == 1 %} Annulé {% else %}{{Tda.statut}}{% endif %}
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            {% if Tda.cloturer != 1 and Tda.annuler != 1 %}    
+                                {% if Tda.statut == 'Créé' %}
+                                    <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                        action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'En cours' } ) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                        <button class="dropdown-item">En cours</button>
+                                    </form>
+                                    <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                        action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'En retarde' } ) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                        <button class="dropdown-item">En retarde</button>
+                                    </form>
+                                    <form  name="Tdocument-cloturer" class="Tdocument-cloturer" method="post" 
+                                        action="{{ path('tdocument_cloturer', {'id': Tda.id }) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ Tda.id) }}">
+                                        <button class="dropdown-item" >Clôturer</button>
+                                    </form>
+                                    <form  name="Tdocument-annuler" class="Tdocument-annuler" method="post" 
+                                        action="{{ path('tdocument_annuler', {'id': Tda.id }) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ Tda.id) }}">
+                                        <button class="dropdown-item">Annuler</button>
+                                    </form>
+                                {% elseif Tda.statut == 'En retarde' %} 
+                                    <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                        action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'Créé' } ) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                        <button class="dropdown-item">Créé</button>
+                                    </form>
+                                    <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                        action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'En cours' } ) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                        <button class="dropdown-item">En cours</button>
+                                    </form>
+                                    <form  name="Tdocument-cloturer" class="Tdocument-cloturer" method="post" 
+                                        action="{{ path('tdocument_cloturer', {'id': Tda.id }) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ Tda.id) }}">
+                                        <button class="dropdown-item" >Clôturer</button>
+                                    </form>
+                                    <form  name="Tdocument-annuler" class="Tdocument-annuler" method="post" 
+                                        action="{{ path('tdocument_annuler', {'id': Tda.id }) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ Tda.id) }}">
+                                        <button class="dropdown-item">Annuler</button>
+                                    </form>
+                                {% elseif Tda.statut == 'En cours' %}
+                                    <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                        action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'Créé' } ) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                        <button class="dropdown-item">Créé</button>
+                                    </form>
+                                    <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                        action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'En retarde' } ) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                        <button class="dropdown-item">En retarde</button>
+                                    </form>
+                                        <form  name="Tdocument-cloturer" class="Tdocument-cloturer" method="post" 
+                                        action="{{ path('tdocument_cloturer', {'id': Tda.id }) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ Tda.id) }}">
+                                        <button class="dropdown-item" >Clôturer</button>
+                                    </form>
+                                    <form  name="Tdocument-annuler" class="Tdocument-annuler" method="post" 
+                                        action="{{ path('tdocument_annuler', {'id': Tda.id }) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ Tda.id) }}">
+                                        <button class="dropdown-item">Annuler</button>
+                                    </form>
+                                {% endif %}
+
+                            {% elseif Tda.cloturer == 1 %}
+                                <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                    action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'Créé' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                    <button class="dropdown-item">Créé</button>
+                                </form>
+                                <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                    action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'En cours' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                    <button class="dropdown-item">En cours</button>
+                                </form>
+                                <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                    action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'En retarde' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                    <button class="dropdown-item">En retarde</button>
+                                </form>
+                                <form  name="Tdocument-annuler" class="Tdocument-annuler" method="post" 
+                                    action="{{ path('tdocument_annuler', {'id': Tda.id }) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ Tda.id) }}">
+                                    <button class="dropdown-item">Annuler</button>
+                                </form>
+
+                            {% elseif Tda.annuler == 1 %}
+                                <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                    action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'Créé' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                    <button class="dropdown-item">Créé</button>
+                                </form>
+                                <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post" 
+                                    action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'En cours' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                    <button class="dropdown-item">En cours</button>
+                                </form>
+                                <form  name="Tdocument-statuts" class="Tdocument-statuts" method="post"  
+                                    action="{{ path('tdocument-statuts', {'id': Tda.id , 'stut': 'En retarde' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ Tda.id) }}">
+                                    <button class="dropdown-item">En retarde</button>
+                                </form>
+                                <form  name="Tdocument-cloturer" class="Tdocument-cloturer" method="post" 
+                                    action="{{ path('tdocument_cloturer', {'id': Tda.id }) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ Tda.id) }}">
+                                    <button class="dropdown-item" >Clôturer</button>
+                                </form>
+                            
+                            {% endif %}
+                        </div>
+                    </div>           
+                </td>
+                <td class="action td_width">
+                    {% if Tda.cloturer == 0 and Tda.annuler == 0 %} 
+                        <div class="btn-group">
+                            <button type="button" class="btn btn-outline-info  btn-sm  dropdown-toggle" id="dropdown_table" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 18">
+                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                </svg>
+                            </button>
+                            <div class="dropdown-menu dropdown-menu-right">
+                                {% if Tda.typeDocument =='Dossier' %}
+                                    <button type="button " class="dropdown-item tdocument-dossier"
+                                                data-toggle="modal" data-target="#exampleModalFolder">Ajouter Dossier
+                                    </button>
+                                    <button type="button " class="dropdown-item tdocument-dossier"
+                                                data-toggle="modal" data-target="#exampleModal">Ajouter Document
+                                    </button>
+                                    <button type="button " class="dropdown-item tdocument-dossier"
+                                                data-toggle="modal" data-target="#taction">Ajouter Action
+                                    </button>
+                                    <button type="button " class="dropdown-item modifier-tdocument"
+                                                data-toggle="modal" data-target="#Tdocument-edit">Modifier
+                                    </button>
+                                    <form  name="Tdocument-suspendre" class="Tdocument-suspendre" method="post" 
+                                            action="{{ path('tdocument_suspendre', {'id': Tda.id }) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('suspendre'~ Tda.id) }}">
+                                        <button class="dropdown-item">Supprimer</button>
+                                    </form>
+
+                                {% else %}
+                                    <button type="button " class="dropdown-item modifier-tdocument"
+                                            data-toggle="modal" data-target="#Tdocument-edit">Modifier
+                                    </button>
+                                    <form  name="Tdocument-suspendre" class="Tdocument-suspendre" method="post" 
+                                        action="{{ path('tdocument_suspendre', {'id': Tda.id }) }}" >
+                                        <input type="hidden" name="_token" value="{{ csrf_token('suspendre'~ Tda.id) }}">
+                                        <button class="dropdown-item">Supprimer</button>
+                                    </form>
+                                    <button type="button" class="dropdown-item Vdocument-version"
+                                            data-toggle="modal" data-target="#Vdocument-modal">Attacher Version
+                                    </button>
+                                    {% if Tda.slug != null %}
+                                        <a href={{ url ~ Tda.slug | url_encode   }} download="{{ Tda.slug  | split('+', 2)[1] }}"> 
+                                            <button type="button" class="dropdown-item Telecharger">Télecharger</button>
+                                        </a>
+                                    {% endif %} 
+                                {% endif %}
+                            </div>
+                        </div>
+                        {# {% elseif Tda.cloturer == 1 %}
+
+                                <a href={{ "http://127.0.0.1:8000/uploads/"~ Tda.slug | url_encode   }} download="{{ Tda.slug  | split('+', 2)[1] }}">                 
+                                        <i class="fa fa-download"></i>
+                                </a>
+                        {% elseif Tda.annuler == 1 %}
+
+                                <a href={{ "http://127.0.0.1:8000/uploads/"~ Tda.slug | url_encode   }} download="{{ Tda.slug  | split('+', 2)[1] }}">                 
+                                        <i class="fa fa-download"></i>
+                                        
+                                </a>
+                        {% endif %} #}
+                    {% elseif Tda.cloturer == 1 %}
+                        {% if Tda.slug != null %}
+                            <a href={{ url ~ Tda.slug | url_encode   }} download="{{ Tda.slug  | split('+', 2)[1] }}">                 
+                                <i class="fa fa-download"></i>
+                            </a>
+                        {% else %}  
+                            Clôturé 
+                        {% endif %}  
+
+                    {% elseif Tda.annuler == 1 %}
+                        {% if Tda.slug != null %}   
+                            <a href={{ url ~ Tda.slug | url_encode   }} download="{{ Tda.slug  | split('+', 2)[1] }}">                 
+                                <i class="fa fa-download"></i>
+                            </a>
+                        {% else %} 
+                            Annulé
+                        {% endif %} 
+
+                    {% endif %}
+                </td>
+            </tr>
+        {% endif %}     
+        {# -------------------------------------------------------------------------------- #}
+        {# ------------------------- les actions des dossiers ----------------------------- #}
+
+            {% if Tda.tactions is not empty %}     
+                <tr class="version">
+                    <td class="td_version" colspan="12">
+                        <div> 
+                            <table class="table table-bordered plus_table ">
+                                <thead class=""></thead>
+                                <tbody>
+                                    {% for TdAction in Tda.tactions %}
+                                        {# les nombres des documents active #}
+                                            {%set nbDocument = 0 %}
+                                            {% if TdAction.tactionReponses is not empty %}
+                                                {% for t1  in TdAction.tactionReponses %}
+                                                    {% if t1.document is not empty  %}
+                                                        {% if t1.document.suspondu == 0  %}
+                                                            {%set nbDocument = nbDocument + 1 %}
+                                                        {% endif %} 
+                                                    {% endif %} 
+                                                {% endfor %}
+                                            {% endif %} 
+                                        {# ---------------------------------- #}
+                                        <tr    > 
+                                            {% if nbDocument > 0 %}
+                                                <td class="plus">
+                                                    <i class="fas fa-angle-right "></i>  
+                                            {% else %}
+                                                <td class="">
+                                                    <i class="fas fa-minus"></i>
+                                            {% endif %}
+                                            </td> 
+                                            <td class="id-taction">{{TdAction.id}}</td>
+                                            <td class="intitule-tdocument">{{TdAction.intitule}}</td>
+                                            <td>{% if TdAction.Taction is not null %} {{TdAction.Taction.type}} {% endif %}</td>
+                                            <td>{% if TdAction.dateCreation is not empty %} {{TdAction.dateCreation | date("d/m/Y")}} {% endif %}</td>
+                                            <td>{{TdAction.userCreate}}</td>
+                                            <td>{{nbDocument}}</td>  
+                                            <td></td>
+                                            <td>10/01/2021</td>
+                                            <td>{% if TdAction.etatUrgence is not null %} {{TdAction.etatUrgence.type}} {% endif %}</td>
+                                            <td>
+                                                <div class="btn-group">
+                                                    <button type="button" class="btn   btn-sm  dropdown-toggle" id="dropdown_table1" data-toggle="dropdown"                 aria-haspopup="true" aria-expanded="false">
+                                                        {% if TdAction.cloturer == 1 %} Clôturé {% elseif TdAction.annuler == 1 %} Annulé {% else %}{{TdAction.statut}}
+                                                        {% endif %}
+                                                    </button>
+                                                    <div class="dropdown-menu dropdown-menu-right">
+                                                        {% if TdAction.cloturer != 1 and TdAction.annuler != 1 %}    
+                                                            {% if TdAction.statut == 'Créé' %}
+                                                                <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                                                    action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'En cours' } ) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">En cours</button>
+                                                                </form>
+                                                                <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                                                    action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'En retarde' } ) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">En retarde</button>
+                                                                </form>
+                                                                <form  name="Taction-cloturer" class="Taction-cloturer" method="post" 
+                                                                    action="{{ path('taction_cloturer', {'id': TdAction.id }) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item" >Clôturer</button>
+                                                                </form>
+                                                                <form  name="Taction-annuler" class="Taction-annuler" method="post" 
+                                                                    action="{{ path('taction_annuler', {'id': TdAction.id }) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">Annuler</button>
+                                                                </form>
+
+                                                            {% elseif TdAction.statut == 'En retarde' %} 
+                                                                <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                                                    action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'Créé' } ) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">Créé</button>
+                                                                </form>
+                                                                <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                                                    action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'En cours' } ) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">En cours</button>
+                                                                </form>
+                                                                <form  name="Taction-cloturer" class="Taction-cloturer" method="post" 
+                                                                    action="{{ path('taction_cloturer', {'id': TdAction.id }) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item" >Clôturer</button>
+                                                                </form>
+                                                                <form  name="Taction-annuler" class="Taction-annuler" method="post" 
+                                                                    action="{{ path('taction_annuler', {'id': TdAction.id }) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">Annuler</button>
+                                                                </form>
+
+                                                            {% elseif TdAction.statut == 'En cours' %}
+                                                                <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                                                    action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'Créé' } ) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">Créé</button>
+                                                                </form>
+                                                                <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                                                    action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'En retarde' } ) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">En retarde</button>
+                                                                </form>
+                                                                    <form  name="Taction-cloturer" class="Taction-cloturer" method="post" 
+                                                                    action="{{ path('taction_cloturer', {'id': TdAction.id }) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item" >Clôturer</button>
+                                                                </form>
+                                                                <form  name="Taction-annuler" class="Taction-annuler" method="post" 
+                                                                    action="{{ path('taction_annuler', {'id': TdAction.id }) }}" >
+                                                                    <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ TdAction.id) }}">
+                                                                    <button class="dropdown-item">Annuler</button>
+                                                                </form>
+                                                            {% endif %}
+
+                                                        {% elseif TdAction.cloturer == 1 %}
+                                                            <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                                                action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'Créé' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                <button class="dropdown-item">Créé</button>
+                                                            </form>
+                                                            <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                                                action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'En cours' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                <button class="dropdown-item">En cours</button>
+                                                            </form>
+                                                            <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                                                action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'En retarde' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                <button class="dropdown-item">En retarde</button>
+                                                            </form>
+                                                            <form  name="Taction-annuler" class="Taction-annuler" method="post" 
+                                                                action="{{ path('taction_annuler', {'id': TdAction.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ TdAction.id) }}">
+                                                                <button class="dropdown-item">Annuler</button>
+                                                            </form>
+
+                                                        {% elseif TdAction.annuler == 1 %}   
+                                                            <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                                                action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'Créé' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                <button class="dropdown-item">Créé</button>
+                                                            </form>
+                                                            <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                                                action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'En cours' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                <button class="dropdown-item">En cours</button>
+                                                            </form>
+                                                            <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                                                action="{{ path('Taction-statuts', {'id': TdAction.id , 'stut': 'En retarde' } ) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ TdAction.id) }}">
+                                                                <button class="dropdown-item">En retarde</button>
+                                                            </form>
+                                                            <form  name="Taction-cloturer" class="Taction-cloturer" method="post" 
+                                                                action="{{ path('taction_cloturer', {'id': TdAction.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ TdAction.id) }}">
+                                                                <button class="dropdown-item" >Clôturer</button>
+                                                            </form>
+                                                            
+                                                        {% endif %}
+                                                    </div>
+                                                </div>   
+                                            </td>
+                                            <td>
+                                                {% if TdAction.cloturer == 0 and TdAction.annuler == 0  %}
+                                                    <div class="btn-group">
+                                                        <button type="button" class="btn btn-outline-info  btn-sm  dropdown-toggle" id="dropdown_table" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 18">
+                                                            <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                                                            </svg>
+                                                        </button>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <button type="button" class="dropdown-item taction_reponse"
+                                                                        data-toggle="modal" data-target="#taction_reponse">Répondre
+                                                            </button>
+                                                            <button type="button " class="dropdown-item modifier-taction" id="{{TdAction.id}}"
+                                                                        data-toggle="modal" data-target="#Taction-edit">Modifier
+                                                            </button>
+                                                            <form  name="Taction-suspendre" class="Taction-suspendre" method="post" 
+                                                                action="{{ path('taction_suspendre', {'id': TdAction.id }) }}" >
+                                                                <input type="hidden" name="_token" value="{{ csrf_token('suspendre'~ TdAction.id) }}">
+                                                                <button class="dropdown-item">Supprimer</button>
+                                                            </form>
+                                                        </div>
+                                                    </div>
+                                                
+                                                {% elseif TdAction.cloturer == 1 %}
+                                                    Clôturé    
+                                                {% else %} 
+                                                    Annulé    
+                                                {% endif %}
+                                            </td>
+                                        </tr> 
+                                        {# ----------------------------------------------- #}
+                                        {# --------- les réponses des action-------------- #}                                                        
+                                            {%set i = '0'%}
+                                            {% if TdAction.tactionReponses is not empty %}
+                                                {% for t1  in TdAction.tactionReponses %}
+                                                    {% if t1.document is not empty  %}
+                                                        {% if t1.document.suspondu == 0  %}
+                                                            {%set i = '1'%}
+                                                        {% endif %} 
+                                                    {% endif %} 
+                                                {% endfor %}
+
+                                                {% if i == '1'%}   
+                                                    <tr class="version">
+                                                        <td  colspan="12">
+                                                            <div> 
+                                                                <table class="table table-bordered bg-light">
+                                                                    <thead>
+                                                                        <tr>
+                                                                        <th scope="col">Id Rep</th>
+                                                                        <th scope="col">Intitule</th>
+                                                                        <th scope="col">User</th>
+                                                                        <th scope="col">Document</th>
+                                                                        <th scope="col">Observation</th>
+                                                                        </tr>
+                                                                    </thead>
+                                                                    <tbody>
+                                                                        {% for t  in TdAction.tactionReponses %}
+                                                                            {% if t.document is not empty  %}
+                                                                                {% if t.document.suspondu == 0  %}
+                                                                                    <tr>
+                                                                                    <td> {{ t.id }}           </td>
+                                                                                    <td> {{ t.intitule }}     </td>
+                                                                                    <td> {{ t.userCreate }}   </td>
+                                                                                    {% if t.document is not empty  %}
+                                                                                        <td>
+                                                                                            <a  class="link-r  show_document_action" href="#"  data-toggle="modal" />
+                                                                                                <input type="text" class="document-show" value="{{t.document.id}}" hidden id="id-document-show"> {{ t.document.intitule  }}  
+                                                                                                
+                                                                                            </a>
+                                                                                        </td>
+                                                                                    {% else %}    
+                                                                                        <td> </td>
+                                                                                    {% endif %}
+                                                                                    <td> {{ t.observation }}  </td>
+                                                                                    </tr>
+                                                                                {% endif %} 
+                                                                            {% endif %}   
+                                                                        {% endfor %}
+                                                                    </tbody>
+                                                                </table>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                {% endif %} 
+                                            {% endif %}
+                                        {# --------- fin les réponses des action ------------- #}
+                                        {#---------------------------------------------------  #}
+                                    {% endfor %}
+                                </tbody> 
+                            </table> 
+                        </div>
+                    </td>          
+                </tr>
+            {% endif %}
+        {# ------------------------- Fin les actions des dossiers ------------------------- #}
+        {# -------------------------------------------------------------------------------- #}
+    {% endfor %}    
+{# -------------------------------------------------------------------------------------------------------------------------------------------------------- #}
+{# -------------------------------------------------------------------------------------------------------------------------------------------------------- #}
+
+{# ------------------------------------------------------------------------------------------------------------------------------ #}
+{# --------------------------------------------------Table de les actions ------------------------------------------------------- #}
+    {% for ta in taction %}
+
+        {% if c > 2 %}
+            {%set c = 1 %}
+        {% endif %}
+        {# les nombres des documents active #}
+            {%set nbDocument = 0 %}
+            {% if ta.tactionReponses is not empty %}
+                {% for t1  in ta.tactionReponses %}
+                    {% if t1.document is not empty  %}
+                        {% if t1.document.suspondu == 0  %}
+                            {%set nbDocument = nbDocument + 1 %}
+                        {% endif %} 
+                    {% endif %} 
+                {% endfor %}
+            {% endif %} 
+        {# ---------------------------------- #}
+        <tr class="table-tr{{c}}" >
+            <td class="plus">
+                {% if nbDocument > 0 %}
+                        <i class="fas fa-plus"></i>  
+                {% else %}
+                        <i class="fas fa-minus"></i>
+                {% endif %} 
+            </td>
+            <td class="id-taction">{{ta.id}}</td>
+            <td>{{ta.intitule}}</td>
+            <td>{% if ta.Taction is not null %} {{ta.Taction.type}} {% endif %}</td>
+            <td>{% if ta.dateCreation is not empty %} {{ta.dateCreation | date("d/m/Y")}} {% endif %}</td>
+            <td>{{ta.userCreate}}</td>
+            <td>{{nbDocument}}</td>  
+            <td>10/01/2021</td>
+            <td>10/01/2021</td>
+            <td>{% if ta.etatUrgence is not null %} {{ta.etatUrgence.type}} {% endif %}</td>
+            <td>
+                <div class="btn-group">
+                    <button type="button" class="btn   btn-sm  dropdown-toggle" id="dropdown_table1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                        {% if ta.cloturer == 1 %} Clôturé {% elseif ta.annuler == 1 %} Annulé {% else %}{{ta.statut}}{% endif %}
+                    </button>
+                    <div class="dropdown-menu dropdown-menu-right">
+                        {% if ta.cloturer != 1 and ta.annuler != 1 %}   
+
+                            {% if ta.statut == 'Créé' %}
+                                <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                    action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'En cours' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                    <button class="dropdown-item">En cours</button>
+                                </form>
+                                <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                    action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'En retarde' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                    <button class="dropdown-item">En retarde</button>
+                                </form>
+                                <form  name="Taction-cloturer" class="Taction-cloturer" method="post" 
+                                    action="{{ path('taction_cloturer', {'id': ta.id }) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ ta.id) }}">
+                                    <button class="dropdown-item" >Clôturer</button>
+                                </form>
+                                <form  name="Taction-annuler" class="Taction-annuler" method="post" 
+                                    action="{{ path('taction_annuler', {'id': ta.id }) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ ta.id) }}">
+                                    <button class="dropdown-item">Annuler</button>
+                                </form>
+
+                            {% elseif ta.statut == 'En retarde' %} 
+                                <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                    action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'Créé' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                    <button class="dropdown-item">Créé</button>
+                                </form>
+                                <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                    action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'En cours' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                    <button class="dropdown-item">En cours</button>
+                                </form>
+                                    <form  name="Taction-cloturer" class="Taction-cloturer" method="post" 
+                                    action="{{ path('taction_cloturer', {'id': ta.id }) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ ta.id) }}">
+                                    <button class="dropdown-item" >Clôturer</button>
+                                </form>
+                                <form  name="Taction-annuler" class="Taction-annuler" method="post" 
+                                    action="{{ path('taction_annuler', {'id': ta.id }) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ ta.id) }}">
+                                    <button class="dropdown-item">Annuler</button>
+                                </form>
+
+                            {% elseif ta.statut == 'En cours' %}
+                                <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                    action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'Créé' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                    <button class="dropdown-item">Créé</button>
+                                </form>
+                                <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                    action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'En retarde' } ) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                    <button class="dropdown-item">En retarde</button>
+                                </form>
+                                    <form  name="Taction-cloturer" class="Taction-cloturer" method="post" 
+                                    action="{{ path('taction_cloturer', {'id': ta.id }) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ ta.id) }}">
+                                    <button class="dropdown-item" >Clôturer</button>
+                                </form>
+                                <form  name="Taction-annuler" class="Taction-annuler" method="post" 
+                                    action="{{ path('taction_annuler', {'id': ta.id }) }}" >
+                                    <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ ta.id) }}">
+                                    <button class="dropdown-item">Annuler</button>
+                                </form>
+
+                            {% endif %}
+
+                        {% elseif ta.cloturer == 1 %}
+                            <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'Créé' } ) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                <button class="dropdown-item">Créé</button>
+                            </form>
+                            <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'En cours' } ) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                <button class="dropdown-item">En cours</button>
+                            </form>
+                            <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'En retarde' } ) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                <button class="dropdown-item">En retarde</button>
+                            </form>
+                            <form  name="Taction-annuler" class="Taction-annuler" method="post" 
+                                action="{{ path('taction_annuler', {'id': ta.id }) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('annuler'~ ta.id) }}">
+                                <button class="dropdown-item">Annuler</button>
+                            </form>
+                        
+                        {% elseif ta.annuler == 1 %}
+                            <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'Créé' } ) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                <button class="dropdown-item">Créé</button>
+                            </form>
+                            <form  name="Taction-statuts" class="Taction-statuts" method="post" 
+                                action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'En cours' } ) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                <button class="dropdown-item">En cours</button>
+                            </form>
+                            <form  name="Taction-statuts" class="Taction-statuts" method="post"  
+                                action="{{ path('Taction-statuts', {'id': ta.id , 'stut': 'En retarde' } ) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('statut'~ ta.id) }}">
+                                <button class="dropdown-item">En retarde</button>
+                            </form>
+                            <form  name="Taction-cloturer" class="Taction-cloturer" method="post" 
+                                action="{{ path('taction_cloturer', {'id': ta.id }) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('cloturer'~ ta.id) }}">
+                                <button class="dropdown-item" >Clôturer</button>
+                            </form>
+                        
+                        {% endif %}
+                    </div>
+                </div>
+            </td>
+            <td>
+                {% if ta.cloturer == 0 and ta.annuler == 0  %}
+                    <div class="btn-group">
+                        <button type="button" class="btn btn-outline-info  btn-sm  dropdown-toggle" id="dropdown_table" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-three-dots" viewBox="0 0 16 18">
+                                <path d="M3 9.5a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3zm5 0a1.5 1.5 0 1 1 0-3 1.5 1.5 0 0 1 0 3z"/>
+                            </svg>
+                        </button>
+                        <div class="dropdown-menu dropdown-menu-right">
+                            <button type="button" class="dropdown-item taction_reponse"
+                                        data-toggle="modal" data-target="#taction_reponse">Répondre</button>
+                            {# <button class="dropdown-item" type="button">Modifier</button> #}
+
+                            <button type="button " class="dropdown-item modifier-taction" id="{{ta.id}}"
+                                        data-toggle="modal" data-target="#Taction-edit">Modifier
+                            </button>
+                            <form  name="Taction-suspendre" class="Taction-suspendre" method="post" 
+                                action="{{ path('taction_suspendre', {'id': ta.id }) }}" >
+                                <input type="hidden" name="_token" value="{{ csrf_token('suspendre'~ ta.id) }}">
+                                <button class="dropdown-item">Supprimer</button>
+                            </form>
+                        </div>
+                    </div>
+                {% elseif ta.cloturer == 1 %}
+                    Clôturé    
+                {% else %} 
+                    Annulé    
+                {% endif %}
+            </td>
+        </tr>
+        {# ----------------------------------------------- #}
+        {# --------- les réponses des action-------------- #}  
+            {%set i = '0'%}
+            {% if ta.tactionReponses is not empty %}
+                {% for t1  in ta.tactionReponses %}
+                    {% if t1.document is not empty  %}
+                        {% if t1.document.suspondu == 0  %}
+                            {%set i = '1'%}
+                        {% endif %} 
+                    {% endif %} 
+                {% endfor %}
+
+                {% if i == '1'%}   
+                    <tr class="version">
+                        <td  colspan="12">
+                            <div> 
+                                <table class="table table-bordered bg-light">
+                                    <thead>
+                                        <tr>
+                                        <th scope="col">Id Rep</th>
+                                        <th scope="col">Intitule</th>
+                                        <th scope="col">User</th>
+                                        <th scope="col">Document</th>
+                                        <th scope="col">Observation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for t  in ta.tactionReponses %}
+                                            {% if t.document is not empty  %}
+                                                {% if t.document.suspondu == 0  %}
+                                                    <tr>
+                                                        <td> {{ t.id }}           </td>
+                                                        <td> {{ t.intitule }}     </td>
+                                                        <td> {{ t.userCreate }}   </td>
+                                                        {% if t.document is not empty  %}
+                                                            <td>
+                                                                <a  class="link-r  show_document_action" href="#"  data-toggle="modal" />
+                                                                    <input type="text" class="document-show" value="{{t.document.id}}" hidden id="id-document-show"> {{ t.document.intitule  }}  
+                                                                </a>
+                                                            </td>
+                                                        {% else %}    
+                                                            <td> </td>
+                                                        {% endif %}
+                                                        <td> {{ t.observation }} </td>
+                                                    </tr>
+                                                {% endif %} 
+                                            {% endif %}   
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                {% endif %} 
+            {% endif %}
+        {# --------- fin les réponses des action ------------- #}
+        {#---------------------------------------------------  #}
+        {% set c = c + 1 %}     
+    {% endfor %}
+{# ------------------------------------------------- Fin Table de les actions --------------------------------------------------- #}
+{# ------------------------------------------------------------------------------------------------------------------------------ #}
+    
+

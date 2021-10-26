@@ -1,0 +1,45 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}TactionReponse index{% endblock %}
+
+{% block body %}
+    <h1>TactionReponse index</h1>
+ 
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>RefReponse</th>
+                <th>Intitule</th>
+                <th>TypeReponse</th>
+                <th>DateCreation</th>
+                <th>DateCreationn</th>
+                <th>userCreate</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for taction_reponse in taction_reponses %}
+            <tr>
+                <td>{{ taction_reponse.id }}</td>
+                <td>{{ taction_reponse.refReponse }}</td>
+                <td>{{ taction_reponse.intitule }}</td>
+                <td>{{ taction_reponse.typeReponse }}</td>
+                <td>{{ taction_reponse.dateCreation }}</td>
+                <td>{{ taction_reponse.dateCreationn ? taction_reponse.dateCreationn|date('Y-m-d') : '' }}</td>
+                <td>{{ taction_reponse.userCreate }}</td>
+                <td>
+                    <a href="{{ path('taction_reponse_show', {'id': taction_reponse.id}) }}">show</a>
+                    <a href="{{ path('taction_reponse_edit', {'id': taction_reponse.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="8">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('taction_reponse_new') }}">Create new</a>
+{% endblock %}

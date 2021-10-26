@@ -1,0 +1,41 @@
+  {% for Td in Tdocument %}
+    <tr  id="td2" class="tr-parent">
+        <td class="plus"><i class="fas fa-minus"></i></td>
+        <td>{{Td.id}}</td>
+        <td>{{Td.intitule}}</td>
+        <td>{{Td.typeDocument}}</td>
+        <td>{{Td.Taille}}</td>
+        <td>{{Td.userCreate}}</td>
+        <td>{% if Td.dateCreation is not empty %} {{Td.dateCreation | date("d/m/Y")}} {% endif %}</td>
+        <td>20</td>
+        <td>{{Td.userCreate}}</td>
+        <td>ss</td>
+ 
+    </tr>
+    <tr class="version">
+    <td  colspan="10">
+        <div> 
+                <table class="table table-bordered bg-light">
+                        <thead>
+                            <tr>
+                            <th scope="col">Id Version</th>
+                            <th scope="col">Intitule</th>
+                            <th scope="col">User</th>
+                            <th scope="col">Date</th>
+                            <th scope="col">Observation</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                            <th>1</th>
+                            <td>Document v1</td>
+                            <td>User 1</td>
+                            <td>22/15/2020</td>
+                            <td>Observation 1</td>
+                            </tr>
+                        </tbody>
+                    </table>
+        </div>
+    </td>
+    </tr>
+{% endfor %}

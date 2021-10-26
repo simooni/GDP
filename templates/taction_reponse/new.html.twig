@@ -1,0 +1,11 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}New TactionReponse{% endblock %}
+
+{% block body %}
+    <h1>Create new TactionReponse</h1>
+
+    {{ include('taction_reponse/_form.html.twig') }}
+
+    <a href="{{ path('taction_reponse_index') }}">back to list</a>
+{% endblock %}
